@@ -5,10 +5,8 @@ WORKDIR /workspace
 
 # Install necessary packages including Git and DKMS
 RUN apt-get update \
-    && apt-get install -y git dkms usbutils \
+    && apt-get install -y git dkms usbutils evtest input-utils \
     && rm -rf /var/lib/apt/lists/*
-
-
 
 # Copy the current directory contents into the container at /app
 COPY requirements.txt .
@@ -20,4 +18,4 @@ RUN git clone https://github.com/medusalix/xone
 
 WORKDIR /workspace/xone
 
-RUN .install.sh --release
+# RUN .install.sh --release

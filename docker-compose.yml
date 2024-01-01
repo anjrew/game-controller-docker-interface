@@ -2,10 +2,8 @@ version: '3'
 services:
   app:
     build: .
-    # Grant access to USB devices (for the game controller)
-    devices:
-      - "/dev/input:/dev/input"
     volumes:
       # Mount the X11 socket
-      - "/tmp/.X11-unix:/tmp/.X11-unix"
-      - "/var/run/docker.sock:/var/run/docker.sock"
+      - /dev/bus/usb:/dev/bus/usb # Forwards the local USB devices to the container.
+      - /dev/input:/dev/input # Forwards the local input devices to the container.
+    

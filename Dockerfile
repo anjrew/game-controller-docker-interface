@@ -5,7 +5,7 @@ FROM python:3.8
 RUN pip install pygame gym
 
 # Copy your application code to the container (assuming your application is in the app/ directory)
-COPY app/ /app/
+COPY main.py /app/
 
 # Set the working directory
 WORKDIR /app
