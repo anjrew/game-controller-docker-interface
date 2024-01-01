@@ -59,7 +59,18 @@
 	// "customizations": {},
 
 	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "devcontainer"
+	"remoteUser": "root",
 
-	"initializeCommand": "ls"
+	"initializeCommand": "ls",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.vscode-pylance",
+				"mhutchie.git-graph",
+				"codezombiech.gitignore",
+				"GitHub.copilot-chat",
+				"GitHub.copilot"
+			]
+		}
+	}
 }

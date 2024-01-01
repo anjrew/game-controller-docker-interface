@@ -11,7 +11,13 @@ services:
       - /var/run/docker.sock:/var/run/docker-host.sock 
       # Update this to wherever you want VS Code to mount the folder of your project
       - ../..:/workspaces:cached
+      - /dev/bus/usb:/dev/bus/usb # Forwards the local USB devices to the container.
+      - /dev/input:/dev/input # Forwards the local input devices to the container.
+    
+    # Make the container privileged
+    privileged: true
 
     # Overrides default command so things don't shut down after the process ends.
     entrypoint: /usr/local/share/docker-init.sh
     command: sleep infinity 
+    
