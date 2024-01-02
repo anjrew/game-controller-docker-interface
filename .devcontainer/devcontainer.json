@@ -64,6 +64,7 @@
 	"initializeCommand": "ls",
 	"customizations": {
 		"vscode": {
+			"python.defaultInterpreterPath": "$/usr/local/bin/python",
 			"extensions": [
 				"ms-python.vscode-pylance",
 				"mhutchie.git-graph",

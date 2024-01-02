@@ -1,9 +1,11 @@
-version: '3'
+version: '3.7'
+
 services:
   app:
     build: .
     volumes:
-      # Mount the X11 socket
       - /dev/bus/usb:/dev/bus/usb # Forwards the local USB devices to the container.
       - /dev/input:/dev/input # Forwards the local input devices to the container.
-    
+    privileged: true
+    ports:
+      - 8001:8000

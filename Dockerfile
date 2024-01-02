@@ -1,14 +1,17 @@
 # Start from a Python base image
 FROM python:3.8
 
-# Install pygame and gym (or any other dependencies)
-RUN pip install pygame gym
-
-# Copy your application code to the container (assuming your application is in the app/ directory)
-COPY main.py /app/
-
-# Set the working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Run your application
-CMD ["python", "main.py"]
+# Copy the requirements file first (for better cache utilization)
+COPY requirements.txt /app/
+
+# Install dependencies, including Uvicorn
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy your application code to the container
+COPY . /app/
+
+# Specify the command to run on container start
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -19,3 +19,4 @@ RUN git clone https://github.com/medusalix/xone
 WORKDIR /workspace/xone
 
 # RUN .install.sh --release
+
