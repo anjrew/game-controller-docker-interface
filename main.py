@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 import pygame
-from typing import Dict
+from typing import Any, Dict
+import os
 
 app = FastAPI(
     title="Turtle Beach Recon Controller Input API", 
@@ -8,6 +9,8 @@ app = FastAPI(
     version="0.1.0"
 )
 
+X_BUTTON_INDEX = 2
+A_BUTTON_INDEX = 0
 LEFT_STICK_X_AXIS = 0
 RIGHT_TRIGGER_AXIS = 5
 joystick = None
@@ -30,7 +33,7 @@ def initialize_joystick() -> None:
 
 initialize_joystick()
 
-def get_speed_and_steering() -> Dict[str, float]:
+def get_speed_and_steering() -> Dict[str, Any]:
     """
     Retrieves the current positions of the left stick X-axis and the right trigger axis.
 
@@ -43,18 +46,26 @@ def get_speed_and_steering() -> Dict[str, float]:
     pygame.event.pump()  # Process event queue
     return {
         'left_stick_x_axis': joystick.get_axis(LEFT_STICK_X_AXIS), 
-        'right_trigger_axis': joystick.get_axis(RIGHT_TRIGGER_AXIS)
+        'right_trigger_axis': joystick.get_axis(RIGHT_TRIGGER_AXIS),
+        'x_button_pressed': joystick.get_button(X_BUTTON_INDEX) == 1,
+        'a_button_pressed': joystick.get_button(A_BUTTON_INDEX) == 1
     }
 
-@app.get("/controller-input", response_model=Dict[str, float])
-async def controller_input() -> Dict[str, float]:
+@app.get("/controller-input", response_model=Dict[str, Any])
+async def controller_input() -> Dict[str, Any]:
     """
     Endpoint to get the current controller input for speed and steering.
 
     Returns:
         JSON response containing the current positions of the left stick X-axis and the right trigger axis.
     """
-    return get_speed_and_steering()
+    response = get_speed_and_steering()
+
+    info_env_var = os.getenv("INFO")
+    if info_env_var is not None:
+        response['info'] = info_env_var
+
+    return response
 
 if __name__ == "__main__":
     import uvicorn

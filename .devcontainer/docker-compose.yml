@@ -13,6 +13,8 @@ services:
       - ../..:/workspaces:cached
       - /dev/bus/usb:/dev/bus/usb # Forwards the local USB devices to the container.
       - /dev/input:/dev/input # Forwards the local input devices to the container.
+      - ~/.gitconfig:/root/.gitconfig  # Mount the .gitconfig file
+      - ~/.ssh:/root/.ssh              # Mount the .ssh directory
     
     # Make the container privileged
     privileged: true
@@ -20,4 +22,5 @@ services:
     # Overrides default command so things don't shut down after the process ends.
     entrypoint: /usr/local/share/docker-init.sh
     command: sleep infinity 
+    
     

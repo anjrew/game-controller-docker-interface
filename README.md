@@ -37,7 +37,7 @@ docker exec -it [container_name] bash
 ## Run the Script:
 
 ```bash
-python your_script.py
+python main.py
 ```
 
 ## Usage
@@ -45,7 +45,7 @@ python your_script.py
 The main application can be started with the following command:
 
 ```bash
-python your_script.py
+python main.py
 ```
 
 This script initializes the game controller and listens for input events, printing them to the console.
@@ -53,3 +53,15 @@ Troubleshooting
 
 Controller Not Detected: Ensure the controller is correctly plugged in and recognized by your host system.
 Permission Issues: Make sure the Docker container is running with appropriate permissions to access input devices.
+
+
+## Environment Variable Feature
+
+The application supports an optional environment variable INFO. When set, this variable's value is included in the output response as an info property. This feature allows for dynamic inclusion of additional information in the application's responses.
+Setting the INFO Environment Variable
+
+Before running the application, set the info environment variable:
+
+```bash
+export INFO="Your custom information here"
+```
