@@ -1,4 +1,4 @@
-# Game Controller Interface Project
+# Game Controller Rest Interface Project
 
 ## Overview
 This project is designed to interface with a game controller, enabling the detection and utilization of controller inputs within a Python application. Leveraging technologies such as Pygame and Docker, it provides a robust setup for developing applications that respond to game controller inputs.
