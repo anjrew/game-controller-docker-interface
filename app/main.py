@@ -4,9 +4,9 @@ from typing import Any, Dict
 import os
 
 app = FastAPI(
-    title="Turtle Beach Recon Controller Input API", 
-    description="API to get controller input for speed and steering", 
-    version="0.1.0"
+    title="Turtle Beach Recon Controller Input API",
+    description="API to get controller input for speed and steering",
+    version="0.1.0",
 )
 
 X_BUTTON_INDEX = 2
@@ -18,6 +18,7 @@ joystick = None
 # Initialize Pygame and Joystick
 pygame.init()
 pygame.joystick.init()
+
 
 def initialize_joystick() -> None:
     """
@@ -31,7 +32,9 @@ def initialize_joystick() -> None:
     else:
         print("No game controller detected.")
 
+
 initialize_joystick()
+
 
 def get_speed_and_steering() -> Dict[str, Any]:
     """
@@ -42,14 +45,15 @@ def get_speed_and_steering() -> Dict[str, Any]:
     """
     if not joystick:
         raise HTTPException(status_code=404, detail="Joystick not initialized")
-    
+
     pygame.event.pump()  # Process event queue
     return {
-        'left_stick_x_axis': joystick.get_axis(LEFT_STICK_X_AXIS), 
-        'right_trigger_axis': joystick.get_axis(RIGHT_TRIGGER_AXIS),
-        'x_button_pressed': joystick.get_button(X_BUTTON_INDEX) == 1,
-        'a_button_pressed': joystick.get_button(A_BUTTON_INDEX) == 1
+        "left_stick_x_axis": joystick.get_axis(LEFT_STICK_X_AXIS),
+        "right_trigger_axis": joystick.get_axis(RIGHT_TRIGGER_AXIS),
+        "x_button_pressed": joystick.get_button(X_BUTTON_INDEX) == 1,
+        "a_button_pressed": joystick.get_button(A_BUTTON_INDEX) == 1,
     }
+
 
 @app.get("/controller-input", response_model=Dict[str, Any])
 async def controller_input() -> Dict[str, Any]:
@@ -63,10 +67,12 @@ async def controller_input() -> Dict[str, Any]:
 
     info_env_var = os.getenv("INFO")
     if info_env_var is not None:
-        response['info'] = info_env_var
+        response["info"] = info_env_var
 
     return response
 
+
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=8000)

@@ -2,7 +2,10 @@
 
 ## Overview
 
-This project is designed to interface with a game controller, enabling the detection and utilization of controller inputs within a Python application. Leveraging technologies such as Pygame and Docker, it provides a robust setup for developing applications that respond to game controller inputs.
+This project is designed to interface with a game controller,
+enabling the detection and utilization of controller inputs within a Python application.
+Leveraging technologies such as Pygame and Docker,
+it provides a robust setup for developing applications that respond to game controller inputs.
 
 ### Features
 
@@ -31,7 +34,7 @@ This project is designed to interface with a game controller, enabling the detec
 docker-compose build
 ```
 
-## Run the Docker Container:
+## Run the Docker Container
 
 ``` bash
 docker-compose up
@@ -45,7 +48,7 @@ Access the Docker Container:
 docker exec -it [container_name] bash
 ```
 
-## Run the Script:
+## Run the Script
 
 ```bash
 python main.py
@@ -56,7 +59,7 @@ python main.py
 The main application can be started with the following command:
 
 ```bash
-python main.py
+python app/main.py
 ```
 
 This script initializes the game controller and listens for input events, printing them to the console.
@@ -65,10 +68,11 @@ Troubleshooting
 Controller Not Detected: Ensure the controller is correctly plugged in and recognized by your host system.
 Permission Issues: Make sure the Docker container is running with appropriate permissions to access input devices.
 
-
 ## Environment Variable Feature
 
-The application supports an optional environment variable INFO. When set, this variable's value is included in the output response as an info property. This feature allows for dynamic inclusion of additional information in the application's responses.
+The application supports an optional environment variable INFO.
+When set, this variable's value is included in the output response as an info property.
+This feature allows for dynamic inclusion of additional information in the application's responses.
 Setting the INFO Environment Variable
 
 Before running the application, set the info environment variable:

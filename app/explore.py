@@ -1,6 +1,7 @@
 import time
 import pygame
 
+
 def initialize_controller():
     pygame.init()
     pygame.joystick.init()
@@ -15,7 +16,8 @@ def initialize_controller():
     joystick.init()
     return joystick
 
-def get_controller_input(joystick):
+
+def get_controller_input(joystick int):
     pygame.event.pump()  # Process event queue
 
     # Read joystick axes, buttons, and hats
@@ -24,6 +26,7 @@ def get_controller_input(joystick):
     hats = [joystick.get_hat(i) for i in range(joystick.get_numhats())]
 
     return axes, buttons, hats
+
 
 def main():
     joystick = initialize_controller()
@@ -42,6 +45,7 @@ def main():
             time.sleep(0.1)
     except KeyboardInterrupt:
         print("Exiting...")
+
 
 if __name__ == "__main__":
     main()
