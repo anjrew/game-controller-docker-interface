@@ -1,25 +1,36 @@
-# Game Controller Rest Interface Project
+# 🎮 Game Controller Rest Interface Project
 
 ## Overview
+
 This project is designed to interface with a game controller, enabling the detection and utilization of controller inputs within a Python application. Leveraging technologies such as Pygame and Docker, it provides a robust setup for developing applications that respond to game controller inputs.
 
 ### Features
+
 - Detects game controller input using Pygame.
 - Dockerized environment for consistent development and testing.
 - Real-time input handling and event processing.
 
 ## Prerequisites
-- Python 3.8 or later.
+
+- Python 3.11 or later.
 - Docker and Docker Compose.
 - A game controller compatible with standard input libraries.
+
+## 🚀 Getting Started
+
+1. [Git clone](https://git-scm.com/docs/git-clone) or download this repository to your computer.
+2. [Setup your development environment](./docs/setting_up_the_environment.md).
 
 ## Installation
 
 ### Setting Up the Docker Container
+
 1. **Build the Docker Image:**
+
 ```bash
 docker-compose build
 ```
+
 ## Run the Docker Container:
 
 ``` bash
