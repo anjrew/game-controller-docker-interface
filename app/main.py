@@ -3,6 +3,8 @@ import pygame
 from typing import Any, Dict
 import os
 
+from app.models.controller_input import ControllerInput
+
 app = FastAPI(
     title="Turtle Beach Recon Controller Input API",
     description="API to get controller input for speed and steering",
@@ -50,26 +52,26 @@ def get_speed_and_steering() -> Dict[str, Any]:
     return {
         "left_stick_x_axis": joystick.get_axis(LEFT_STICK_X_AXIS),
         "right_trigger_axis": joystick.get_axis(RIGHT_TRIGGER_AXIS),
-        "x_button_pressed": joystick.get_button(X_BUTTON_INDEX) == 1,
-        "a_button_pressed": joystick.get_button(A_BUTTON_INDEX) == 1,
+        "x_button_pressed": joystick.get_button(X_BUTTON_INDEX),
+        "a_button_pressed": joystick.get_button(A_BUTTON_INDEX),
     }
 
 
-@app.get("/controller-input", response_model=Dict[str, Any])
-async def controller_input() -> Dict[str, Any]:
+@app.get("/controller-input")
+async def controller_input() -> ControllerInput:
     """
     Endpoint to get the current controller input for speed and steering.
 
     Returns:
         JSON response containing the current positions of the left stick X-axis and the right trigger axis.
     """
-    response = get_speed_and_steering()
+    response_data = get_speed_and_steering()
 
     info_env_var = os.getenv("INFO")
     if info_env_var is not None:
-        response["info"] = info_env_var
+        response_data["info"] = info_env_var
 
-    return response
+    return ControllerInput.model_validate(response_data)
 
 
 if __name__ == "__main__":
