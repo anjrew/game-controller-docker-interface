@@ -5,6 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Run API",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/app/main.py",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "env": {
+                "INFO": "Test info string",
+                "PYTHONPATH": "${workspaceFolder}:${env:PYTHONPATH}",
+            }
+        },
+        {
             "name": "Python: Current File",
             "type": "debugpy",
             "request": "launch",
@@ -12,7 +25,8 @@
             "console": "integratedTerminal",
             "justMyCode": false,
             "env": {
-                "INFO": "Test info string"
+                "INFO": "Test info string",
+                "PYTHONPATH": "${workspaceFolder}:${env:PYTHONPATH}",
             }
         }
     ]
