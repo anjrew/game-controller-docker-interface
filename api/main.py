@@ -4,6 +4,8 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
 from api.containers import DependencyContainer
+from api.docs import CONTROLLERS_PATH
+from api.routers.controllers import router as controllers_router
 
 LOGGER = logging.getLogger(__name__)
 
@@ -14,7 +16,10 @@ app = FastAPI(
 )
 
 
-app.include_router(controllers, prefix="/api", tags=["items"])
+app.include_router(
+    controllers_router,
+    prefix=f"/{CONTROLLERS_PATH}",
+)
 
 
 @app.get("/")

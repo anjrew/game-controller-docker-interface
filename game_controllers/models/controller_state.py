@@ -1,8 +1,7 @@
-from abc import ABC, abstractmethod
 from dataclasses import asdict, dataclass
 from typing import Any, Dict
 
-from game_controllers.controller_elements import (
+from game_controllers.models.controller_elements import (
     ControllerAxesState,
     ControllerButtonPressedState,
     ControllerDPadState,
@@ -56,9 +55,3 @@ class ControllerState:
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
-
-
-class Controller(ABC):
-    @abstractmethod
-    def get_state(self) -> ControllerState:
-        """Gets the current controller state of the drone"""
