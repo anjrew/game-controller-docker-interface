@@ -7,7 +7,10 @@ from game_controllers.services.pygame_connector import PyGameConnector
 
 class DependencyContainer(containers.DeclarativeContainer):
     config = providers.Configuration()
-    wiring_config = containers.WiringConfiguration(modules=[".routers.controllers"])
+    relative_router_controller_path = ".routers.controllers"
+    wiring_config = containers.WiringConfiguration(
+        modules=[relative_router_controller_path]
+    )
     py_game_connector = providers.Factory(PyGameConnector)
     joystick_service = providers.Factory(
         JoystickService, pygame_connector=py_game_connector

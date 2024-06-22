@@ -46,6 +46,7 @@ class XboxPyGameController(GameControllerInterface):
         platform: Optional[str] = None,
     ):
         platform = platform or sys.platform
+        platform = SystemPlatform[platform.upper()]  # type: ignore
         if platform == SystemPlatform.MAC:
             self.platform_controller = MacXboxPyGameJoystick(
                 pygame_connector, joystick_id

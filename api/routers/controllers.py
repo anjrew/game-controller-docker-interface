@@ -1,28 +1,38 @@
 import logging
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, Depends, HTTPException
 
 from api.dependencies import DependencyContainer
+from api.docs import CONTROLLERS_PATH
 from game_controllers.models.controller_state import ControllerState
 from game_controllers.models.joystick_details import JoystickDetails
 from game_controllers.services.joystick_service import JoystickService
 
 LOGGER = logging.getLogger(__name__)
 
-router = APIRouter()
+router = APIRouter(prefix=f"/{CONTROLLERS_PATH}")
 
 
-@router.get("/list")
+@router.get("/connected/list")
 @inject
-async def list_controllers(
+async def list_connected_controllers(
     joystick_service: JoystickService = Depends(
         Provide[DependencyContainer.joystick_service]
     ),
 ) -> List[JoystickDetails]:
-    LOGGER.info("List controllers")
     return joystick_service.get_joysticks_details()
+
+
+@router.get("/compatible/list")
+@inject
+async def list_compatible_controllers(
+    joystick_service: JoystickService = Depends(
+        Provide[DependencyContainer.joystick_service]
+    ),
+) -> Dict[str, List[str]]:
+    return joystick_service.get_compatible_joysticks()
 
 
 @router.post("/{joystick_id}/initialize")
@@ -44,7 +54,7 @@ async def initialize_controller(
         raise HTTPException(status_code=500, detail="Initialization failed")
 
 
-@router.get("/controller/{joystick_id}/state", response_model=None)
+@router.get("/{joystick_id}/state", response_model=None)
 @inject
 async def get_controller_state(
     joystick_id: int,
@@ -56,10 +66,6 @@ async def get_controller_state(
     This endpoint returns the state of the joystick with the given ID
     Args:
         joystick_id (int): The ID of the joystick to get the state of
-    Raises:
-        HTTPException: _description_
-        HTTPException: _description_
-        HTTPException: _description_
 
     Returns:
         Any: The Caller should know what to expect from the return value as it depends on the controller type
@@ -84,7 +90,7 @@ async def get_controller_state(
         raise HTTPException(status_code=500, detail="Failed to get joystick state")
 
 
-@router.delete("/controller/{joystick_id}/remove")
+@router.delete("/{joystick_id}/remove")
 @inject
 async def remove_controller(
     joystick_id: int,

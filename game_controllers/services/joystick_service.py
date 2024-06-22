@@ -73,7 +73,7 @@ class JoystickService:
         joystick.dispose()
         LOGGER.info(f"Joystick {joystick_id} removed")
 
-    def get_available_joysticks(
+    def get_compatible_joysticks(
         self, base_dir: Optional[str] = None
     ) -> Dict[str, List[str]]:
         if base_dir is None:
@@ -107,7 +107,7 @@ if __name__ == "__main__":
         print(details)
 
     # Get available joysticks and compatible platforms
-    available_joysticks = joystick_service.get_available_joysticks()
+    available_joysticks = joystick_service.get_compatible_joysticks()
     for joystick, platforms in available_joysticks.items():
         print(f"Joystick: {joystick}, Platforms: {platforms}")
 

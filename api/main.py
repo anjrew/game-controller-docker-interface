@@ -4,7 +4,6 @@ from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
 from api.dependencies import DependencyContainer
-from api.docs import CONTROLLERS_PATH
 from api.routers.controllers import router as controllers_router
 
 LOGGER = logging.getLogger(__name__)
@@ -19,7 +18,6 @@ container = DependencyContainer()
 
 app.include_router(
     controllers_router,
-    prefix=f"/{CONTROLLERS_PATH}",
 )
 
 
