@@ -12,7 +12,7 @@ from game_controllers.services.joystick_service import JoystickService
 
 LOGGER = logging.getLogger(__name__)
 
-router = APIRouter(prefix=f"/{CONTROLLERS_PATH}")
+router = APIRouter(prefix=f"/{CONTROLLERS_PATH}", tags=[CONTROLLERS_PATH.capitalize()])
 
 
 @router.get("/connected/list")
