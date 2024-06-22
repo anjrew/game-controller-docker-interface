@@ -33,7 +33,7 @@ class JoystickService:
             joystick = self.pygame_connector.create_joystick(i)
             joystick.init()
             joysticks.append(self.get_joystick_details(joystick))
-            )
+
         return joysticks
 
     @staticmethod
@@ -53,13 +53,17 @@ class JoystickService:
         joystick = self.joysticks[joystick_id]
         return joystick.get_state()
 
-    def create_joystick(self, joystick_id: int, controller: str, platform: str) -> None:
-        
+    def create_joystick(
+        self, joystick_id: int, controller: str, platform: Optional[str]
+    ) -> None:
+
         if "xbox_controller" not in controller:
             raise ValueError(f"Controller {controller} not supported")
-        
-        self.joysticks[joystick_id] = XboxPyGameController(self.pygame_connector, joystick_id)
-        
+
+        self.joysticks[joystick_id] = XboxPyGameController(
+            self.pygame_connector, joystick_id, platform
+        )
+
         LOGGER.info(f"Joystick {joystick_id} removed")
 
     def remove_joystick(self, joystick_id: int) -> None:

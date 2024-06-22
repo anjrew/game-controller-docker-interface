@@ -16,7 +16,7 @@ import sys
 import time
 from typing import Dict, Optional
 
-from game_controllers.eums.system_platforms import SystemPlatform
+from game_controllers.enums.system_platforms import SystemPlatform
 from game_controllers.interfaces.game_controller_interface import (
     GameControllerInterface,
 )
