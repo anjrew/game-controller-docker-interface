@@ -2,8 +2,6 @@ import logging
 import os
 from typing import Dict, List, Optional
 
-import pygame
-
 from game_controllers.interfaces.game_controller_interface import (
     ControllerState,
     GameControllerInterface,
@@ -15,6 +13,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class JoystickService:
+    "A Stateful service to manage the joysticks connected to the system"
 
     joysticks: Dict[int, GameControllerInterface] = {}
 
