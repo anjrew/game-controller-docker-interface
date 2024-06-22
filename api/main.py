@@ -1,9 +1,14 @@
-from fastapi import FastAPI, HTTPException
-import pygame
-from typing import Any, Dict
+import logging
 import os
+from typing import Any, Dict
 
-from app.models.controller_input import ControllerInput
+import pygame
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import RedirectResponse
+
+from game_controllers.controller_input import ControllerInput
+
+LOGGER = logging.getLogger(__name__)
 
 app = FastAPI(
     title="Turtle Beach Recon Controller Input API",
@@ -28,9 +33,12 @@ def initialize_joystick() -> None:
     """
     global joystick
     joystick_count = pygame.joystick.get_count()
+    LOGGER.info(f"Number of joysticks detected: {joystick_count}")
     if joystick_count > 0:
         joystick = pygame.joystick.Joystick(0)
+        LOGGER.info(f"Found Joystick: {joystick.get_name()}")
         joystick.init()
+        LOGGER.info("Joystick initialized.")
     else:
         print("No game controller detected.")
 
@@ -74,7 +82,15 @@ async def controller_input() -> ControllerInput:
     return ControllerInput.model_validate(response_data)
 
 
+@app.get("/")
+async def redirect_to_docs() -> RedirectResponse:
+    """
+    Redirects to docs
+    """
+    return RedirectResponse(url="/docs")
+
+
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run("api.main:app", host="0.0.0.0", port=8000, reload=True)

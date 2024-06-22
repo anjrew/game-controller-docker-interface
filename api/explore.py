@@ -17,7 +17,7 @@ def initialize_controller():
     return joystick
 
 
-def get_controller_input(joystick int):
+def get_controller_input(joystick: int):
     pygame.event.pump()  # Process event queue
 
     # Read joystick axes, buttons, and hats

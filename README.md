@@ -59,7 +59,7 @@ python main.py
 The main application can be started with the following command:
 
 ```bash
-python app/main.py
+python api/main.py
 ```
 
 This script initializes the game controller and listens for input events, printing them to the console.
