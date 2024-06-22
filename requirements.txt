@@ -1,3 +1,4 @@
 pygame
 fastapi
 uvicorn
+dependency-injector

@@ -8,7 +8,7 @@
             "name": "Run API",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/app/main.py",
+            "program": "${workspaceFolder}/api/main.py",
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
             "justMyCode": false,
