@@ -14,8 +14,9 @@ The `XboxPyGameJoystick` class is a concrete implementation of the `Controller` 
 import logging
 import sys
 import time
-from typing import Dict
+from typing import Dict, Optional
 
+from game_controllers.eums.system_platforms import SystemPlatform
 from game_controllers.interfaces.game_controller_interface import (
     GameControllerInterface,
 )
@@ -38,22 +39,29 @@ class XboxPyGameController(GameControllerInterface):
 
     platform_controller: GameControllerInterface
 
-    def __init__(self, pygame_connector: PyGameConnector, joystick_id: int = 0):
-        if "darwin" in sys.platform:
+    def __init__(
+        self,
+        pygame_connector: PyGameConnector,
+        joystick_id: int = 0,
+        platform: Optional[str] = None,
+    ):
+        platform = platform or sys.platform
+        if platform == SystemPlatform.MAC:
             self.platform_controller = MacXboxPyGameJoystick(
                 pygame_connector, joystick_id
             )
-        elif sys.platform.startswith("linux"):
+        elif platform == SystemPlatform.LINUX:
             self.platform_controller = LinuxXboxPyGameJoystick(
                 pygame_connector, joystick_id
             )
-        elif sys.platform.startswith("win"):
+        elif platform == SystemPlatform.WINDOWS:
             self.platform_controller = WindowsXboxPyGameJoystick(
                 pygame_connector, joystick_id
             )
         else:
             raise ValueError(
-                f"Unknown platform {sys.platform}. Cannot create XboxPyGameJoystick"
+                f"Unknown platform {platform}. Cannot create {self.__class__.__name__}."
+                f"No implementation for this platform: {platform}"
             )
 
     def get_state(self) -> ControllerState:

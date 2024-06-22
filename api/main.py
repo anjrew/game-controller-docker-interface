@@ -3,7 +3,7 @@ import logging
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
-from api.containers import DependencyContainer
+from api.dependencies import DependencyContainer
 from api.docs import CONTROLLERS_PATH
 from api.routers.controllers import router as controllers_router
 

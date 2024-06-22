@@ -2,10 +2,13 @@ import logging
 import os
 from typing import Dict, List, Optional
 
+import pygame
+
 from game_controllers.interfaces.game_controller_interface import (
     ControllerState,
     GameControllerInterface,
 )
+from game_controllers.joysticks.xbox_controller import XboxPyGameController
 from game_controllers.models.joystick_details import JoystickDetails
 from game_controllers.services.pygame_connector import PyGameConnector
 
@@ -29,23 +32,35 @@ class JoystickService:
         for i in range(joystick_count):
             joystick = self.pygame_connector.create_joystick(i)
             joystick.init()
-            joysticks.append(
-                JoystickDetails(
-                    id=i,
-                    name=joystick.get_name(),
-                    num_axes=joystick.get_numaxes(),
-                    num_buttons=joystick.get_numbuttons(),
-                    num_hats=joystick.get_numhats(),
-                    num_balls=joystick.get_numballs(),
-                )
+            joysticks.append(self.get_joystick_details(joystick))
             )
         return joysticks
+
+    @staticmethod
+    def get_joystick_details(joystick: pygame.joystick.JoystickType) -> JoystickDetails:
+        return JoystickDetails(
+            id=joystick.get_id(),
+            name=joystick.get_name(),
+            num_axes=joystick.get_numaxes(),
+            num_buttons=joystick.get_numbuttons(),
+            num_hats=joystick.get_numhats(),
+            num_balls=joystick.get_numballs(),
+        )
 
     def get_joystick_state(self, joystick_id: int) -> ControllerState:
         if joystick_id not in self.joysticks:
             raise ValueError(f"Joystick {joystick_id} not initialized")
         joystick = self.joysticks[joystick_id]
         return joystick.get_state()
+
+    def create_joystick(self, joystick_id: int, controller: str, platform: str) -> None:
+        
+        if "xbox_controller" not in controller:
+            raise ValueError(f"Controller {controller} not supported")
+        
+        self.joysticks[joystick_id] = XboxPyGameController(self.pygame_connector, joystick_id)
+        
+        LOGGER.info(f"Joystick {joystick_id} removed")
 
     def remove_joystick(self, joystick_id: int) -> None:
         if joystick_id not in self.joysticks:
