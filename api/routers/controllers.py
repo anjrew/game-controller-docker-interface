@@ -6,6 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException
 
 from api.dependencies import DependencyContainer
 from api.docs import CONTROLLERS_PATH
+from api.models.initialize_controller_request import InitializeControllerRequest
 from game_controllers.models.controller_state import ControllerState
 from game_controllers.models.joystick_details import JoystickDetails
 from game_controllers.services.joystick_service import JoystickService
@@ -39,15 +40,18 @@ async def list_compatible_controllers(
 @inject
 async def initialize_controller(
     joystick_id: int,
-    controller_type: str,
-    platform: Optional[str] = None,
+    request: InitializeControllerRequest,
     joystick_service: JoystickService = Depends(
         Provide[DependencyContainer.joystick_service]
     ),
 ) -> str:
-    LOGGER.info(f"Initialize joystick {joystick_id}")
+    LOGGER.info(
+        f"Initialize joystick {joystick_id} with type {request.controller_type}"
+    )
     try:
-        joystick_service.create_joystick(joystick_id, controller_type, platform)
+        joystick_service.create_joystick(
+            joystick_id, request.controller_type, request.platform
+        )
         return f"Joystick {joystick_id} initialized"
     except Exception as e:
         LOGGER.error(f"Failed to initialize joystick {joystick_id}: {e}")
