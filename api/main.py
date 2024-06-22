@@ -10,11 +10,12 @@ from api.routers.controllers import router as controllers_router
 LOGGER = logging.getLogger(__name__)
 
 app = FastAPI(
-    title="Turtle Beach Recon Controller Input API",
+    title="Game Controller REST API",
     description="API to get controller input for speed and steering",
     version="0.1.0",
 )
 
+container = DependencyContainer()
 
 app.include_router(
     controllers_router,
@@ -28,10 +29,6 @@ async def redirect_to_docs() -> RedirectResponse:
     Redirects to docs
     """
     return RedirectResponse(url="/docs")
-
-
-container = DependencyContainer()
-container.wire(modules=[__name__])
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 import logging
 from typing import List, Optional
 
-from dependency_injector.wiring import Provide
+from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, Depends, HTTPException
 
 from api.dependencies import DependencyContainer
@@ -9,12 +9,13 @@ from game_controllers.models.controller_state import ControllerState
 from game_controllers.models.joystick_details import JoystickDetails
 from game_controllers.services.joystick_service import JoystickService
 
-router = APIRouter()
-
 LOGGER = logging.getLogger(__name__)
 
+router = APIRouter()
 
-@router.get("/controller/list")
+
+@router.get("/list")
+@inject
 async def list_controllers(
     joystick_service: JoystickService = Depends(
         Provide[DependencyContainer.joystick_service]
@@ -24,7 +25,8 @@ async def list_controllers(
     return joystick_service.get_joysticks_details()
 
 
-@router.post("/controller/{joystick_id}/initialize")
+@router.post("/{joystick_id}/initialize")
+@inject
 async def initialize_controller(
     joystick_id: int,
     controller_type: str,
@@ -42,13 +44,26 @@ async def initialize_controller(
         raise HTTPException(status_code=500, detail="Initialization failed")
 
 
-@router.get("/controller/{joystick_id}/state")
+@router.get("/controller/{joystick_id}/state", response_model=None)
+@inject
 async def get_controller_state(
     joystick_id: int,
     joystick_service: JoystickService = Depends(
         Provide[DependencyContainer.joystick_service]
     ),
 ) -> ControllerState:
+    """
+    This endpoint returns the state of the joystick with the given ID
+    Args:
+        joystick_id (int): The ID of the joystick to get the state of
+    Raises:
+        HTTPException: _description_
+        HTTPException: _description_
+        HTTPException: _description_
+
+    Returns:
+        Any: The Caller should know what to expect from the return value as it depends on the controller type
+    """
     LOGGER.info(f"Get state of joystick {joystick_id}")
     try:
         return joystick_service.get_joystick_state(joystick_id)
@@ -70,6 +85,7 @@ async def get_controller_state(
 
 
 @router.delete("/controller/{joystick_id}/remove")
+@inject
 async def remove_controller(
     joystick_id: int,
     joystick_service: JoystickService = Depends(
