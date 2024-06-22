@@ -71,6 +71,7 @@
 				"codezombiech.gitignore",
 				"GitHub.copilot-chat",
 				"GitHub.copilot",
+<<<<<<< Updated upstream
 				"mhutchie.git-graph",
 				"donjayamanne.githistory",
 				"GitHub.copilot-chat",
@@ -84,6 +85,10 @@
 				"donjayamanne.python-environment-manager",
 				"ms-python.isort",
 				"ms-azuretools.vscode-docker"
+=======
+				"eamodio.gitlens",
+				"donjayamanne.githistory"
+>>>>>>> Stashed changes
 			]
 		}
 	}
