@@ -9,6 +9,9 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/api/main.py",
+            "args": [
+                "--reload"
+            ],
             "cwd": "${workspaceFolder}",
             "console": "integratedTerminal",
             "justMyCode": false,

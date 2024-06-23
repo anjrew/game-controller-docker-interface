@@ -1,3 +1,4 @@
+import argparse
 import logging
 
 from fastapi import FastAPI
@@ -33,4 +34,23 @@ async def redirect_to_docs() -> RedirectResponse:
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run("api.main:app", host="0.0.0.0", port=8000, reload=True)
+    parser = argparse.ArgumentParser(
+        description="Run the Game Controller REST API server"
+    )
+    parser.add_argument(
+        "--log-level",
+        default="error",
+        choices=["debug", "info", "warning", "error", "critical"],
+        help="Set the logging level",
+    )
+    parser.add_argument("--reload", action="store_true", help="Enable auto-reload")
+
+    args = parser.parse_args()
+
+    uvicorn.run(
+        "api.main:app",
+        host="0.0.0.0",
+        port=8000,
+        reload=args.reload,
+        log_level=args.log_level,
+    )
